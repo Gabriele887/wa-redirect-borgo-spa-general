@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <title>Reindirizzamento a WhatsApp…</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Fallback refresh (solo di sicurezza) -->
+  <meta http-equiv="refresh" content="5">
+  <style>
+    :root { --bg:#0b0f14; --card:#131923; --border:#223049; --text:#e6e8eb; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; min-height:100dvh; display:grid; place-items:center; }
+    .card { width:min(560px,92vw); background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px 22px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,.35); }
+    .logo { width:72px; height:72px; margin:0 auto 14px; display:block; }
+    h1 { font-size:1.15rem; margin:0 0 8px; }
+    p { margin:0 0 16px; opacity:.85; line-height:1.45; }
+    a.btn { display:inline-block; padding:12px 18px; border-radius:999px; text-decoration:none; font-weight:700; background:#25D366; color:#04120A; border:1px solid #2a7a4b; }
+    small { display:block; opacity:.6; margin-top:8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- Logo WhatsApp (SVG inline) -->
+    <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="16" fill="#25D366"></circle>
+      <path d="M24.7 7.3A11 11 0 0 0 6.2 22.8L5 27l4.4-1.2A11 11 0 0 0 24.7 7.3Zm-8.7 17a9.3 9.3 0 0 1-4.7-1.3l-.3-.2-2.8.8.8-2.8-.2-.3a9.4 9.4 0 1 1 7.2 3.8Zm5.3-6.9c-.3-.1-1.8-.9-2.1-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.1-.4-2-1.2a7.3 7.3 0 0 1-1.4-1.7c-.2-.3 0-.5.1-.6l.3-.3.2-.3c.1-.2.1-.4 0-.6-.1-.2-.7-1.8-1-2.4-.3-.6-.5-.5-.7-.5H11c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1 2.9 1.1 3.1c.1.2 2 3 4.9 4.2.7.3 1.2.5 1.6.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.1-.5-.2Z" fill="#fff"></path>
+    </svg>
+
+    <h1>Ti stiamo reindirizzando su WhatsApp…</h1>
+    <p>Tra un attimo si aprirà la chat. Se non succede, tocca il pulsante qui sotto.</p>
+    <p><a id="cta" class="btn" href="#" rel="nofollow">Apri WhatsApp</a></p>
+    <small>Messaggio: <code>salve ho visto una pubblicità vorrei maggiori info sui pacchetti che proponete e sulla spa</code></small>
+  </div>
+
+  <script>
+    // Numero di default (solo cifre, con prefisso paese).
+    // Il tuo: +39 351 424 4519  -> "393514244519"
+    const DEFAULT_NUMBER = "393514244519";
+
+    // Testo precompilato (URL-encoded, include la "à")
+    const encodedText = "salve%20ho%20visto%20una%20pubblicit%C3%A0%20vorrei%20maggiori%20info%20sui%20pacchetti%20che%20proponete%20e%20sulla%20spa";
+
+    // Parametro opzionale ?n= per cambiare numero per singola campagna
+    const params = new URLSearchParams(window.location.search);
+    const n = (params.get("n") || "").replace(/\D/g, "");
+    const phone = n.length >= 10 ? n : DEFAULT_NUMBER;
+
+    // Link WhatsApp ufficiale
+    const wa = `https://wa.me/${phone}?text=${encodedText}`;
+
+    // Pulsante di fallback
+    const cta = document.getElementById("cta");
+    cta.href = wa;
+
+    // Auto-redirect in 300 ms
+    setTimeout(() => { window.location.href = wa; }, 300);
+  </script>
+</body>
+</html>
